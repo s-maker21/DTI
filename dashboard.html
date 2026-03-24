@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D-Vision Pro Dashboard</title>
+
+<style>
+
+/* ---------------- GENERAL ---------------- */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    height:100vh;
+    background: url("Dashboardbck.jpeg") no-repeat center center/cover;
+    color:white;
+    overflow:hidden;
+}
+
+/* ---------------- HEADER ---------------- */
+.header{
+    height:80px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 40px;
+    background: rgba(0,0,0,0.6);
+    border-bottom:1px solid #0ff;
+    position:relative;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.header-left img{
+    width:60px;
+}
+
+.header-title{
+    font-size:28px;
+    font-weight:600;
+}
+
+/* CENTER HOME (DISPLAY ONLY) */
+.header-center{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:20px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:default;
+    user-select:none;
+}
+
+/* RIGHT POWER BUTTON */
+.header-icons{
+    font-size:28px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.header-icons:hover{
+    color:#ff3b3b;
+    transform:scale(1.1);
+}
+
+/* ---------------- MAIN LAYOUT ---------------- */
+.container{
+    display:flex;
+    height:calc(100vh - 80px);
+    padding:20px;
+    gap:20px;
+}
+
+/* ---------------- LEFT PANEL ---------------- */
+.left-panel{
+    width:20%;
+    background: rgba(0,0,0,0.6);
+    padding:20px;
+    border-radius:10px;
+}
+
+.info{
+    margin-bottom:15px;
+    font-size:16px;
+}
+
+.input-box{
+    width:100%;
+    height:80px;
+    background:#0d1b2a;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+.control-btn{
+    width:100%;
+    padding:12px;
+    margin-bottom:12px;
+    background: linear-gradient(90deg,#004e92,#000428);
+    border:none;
+    border-radius:8px;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.control-btn:hover{
+    opacity:0.8;
+}
+
+/* ---------------- CENTER PANEL ---------------- */
+.center-panel-wrapper{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.center-panel{
+    flex:1;
+    background: rgba(0,0,0,0.7);
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.center-panel h2{
+    font-size:26px;
+    opacity:0.7;
+}
+
+.bottom-buttons{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+}
+
+.action-btn{
+    padding:15px 60px;
+    font-size:20px;
+    border:none;
+    border-radius:8px;
+    background: linear-gradient(90deg,#004e92,#000428);
+    color:white;
+    cursor:pointer;
+}
+
+.action-btn:hover{
+    opacity:0.8;
+}
+
+/* ---------------- RIGHT PANEL ---------------- */
+.right-panel{
+    width:25%;
+    background: rgba(0,0,0,0.6);
+    padding:20px;
+    border-radius:10px;
+}
+
+.right-panel h3{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+/* ---------------- POWER OFF MODAL ---------------- */
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:#111;
+    padding:30px;
+    border-radius:10px;
+    text-align:center;
+    width:300px;
+}
+
+.modal-content h3{
+    margin-bottom:20px;
+}
+
+.modal-buttons{
+    display:flex;
+    justify-content:space-between;
+}
+
+.modal-buttons button{
+    padding:8px 20px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.confirm{
+    background:red;
+    color:white;
+}
+
+.cancel{
+    background:gray;
+    color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+
+    <!-- LEFT -->
+    <div class="header-left">
+        <img src="mindronbluelogo.jpg">
+        <div class="header-title">D-Vision Pro</div>
+    </div>
+
+    <!-- CENTER (DISPLAY ONLY) -->
+    <div class="header-center">
+        ⌂ Home
+    </div>
+
+    <!-- RIGHT POWER BUTTON -->
+    <div class="header-icons" onclick="powerOff()" title="Power Off">
+        ⏻
+    </div>
+
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+        <div class="info">Lot No: 1009</div>
+        <div class="info">Lot ID: DTI-12345</div>
+        <div class="info">Size: 1.25 ct</div>
+        <div class="info">Remarks:</div>
+        <div class="input-box"></div>
+
+        <button class="control-btn">+</button>
+        <button class="control-btn">−</button>
+        <button class="control-btn">Focus</button>
+    </div>
+
+    <!-- CENTER SECTION -->
+    <div class="center-panel-wrapper">
+
+        <div class="center-panel">
+                <video id="camera" autoplay playsinline style="width:100%; height:100%; object-fit:cover;"></video>
+                <canvas id="snapshot" style="display:none;"></canvas>
+        </div>
+
+        <div class="bottom-buttons">
+            <button class="action-btn" onclick="captureImage()">Start</button>
+            <button class="action-btn" onclick="goToHistory()">History</button>
+            <button class="action-btn" onclick="scanImage()">Scan</button>
+        </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+        <h3>Diamond Reading</h3>
+    </div>
+
+</div>
+
+<!-- POWER OFF MODAL -->
+<div class="modal" id="powerModal">
+    <div class="modal-content">
+        <h3>Are you sure you want to Power Off?</h3>
+        <div class="modal-buttons">
+            <button class="confirm" onclick="confirmPowerOff()">Yes</button>
+            <button class="cancel" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+/* -------- BUTTON FUNCTIONS -------- */
+
+function captureImage(){
+    alert("Starting Capture...");
+}
+
+function goToHistory(){
+    // ✅ Updated path
+    window.location.href = "history.html";
+}
+
+function powerOff(){
+    document.getElementById("powerModal").style.display = "flex";
+}
+
+function closeModal(){
+    document.getElementById("powerModal").style.display = "none";
+}
+
+function confirmPowerOff(){
+    // ✅ Updated path
+    window.location.href = "index.html";
+}
+
+</script>
+<script src="script.js"></script>
+</body>
+</html>
